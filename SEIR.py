@@ -26,7 +26,7 @@ class Learner(object):
         exposed = df.loc[begain:over, "Exposed"].T  # 将确诊的往前推5天作为Exposed
         recovered = df.loc[begain:over, "Recovered"].T
         dead = df.loc[begain:over, "Dead"].T
-        susceptible = np.ones(len(confirmed)) * self.N - confirmed - exposed - recovered - dead
+        susceptible = np.ones(len(confirmed)) * self.N - confirmed - exposed
         return susceptible, exposed, confirmed, recovered, dead
 
 
@@ -59,17 +59,17 @@ class Learner(object):
             E = y[1]
             I = y[2]
             R = y[3]
-            return [-beta * S * I / N, beta * S * I / N - alpha * E, alpha * E - gamma * I, gamma * I]
+            return [-beta * S * (I + E)/ N, beta * S * (I + E) / N - alpha * E, alpha * E - gamma * I, gamma * I]
 
         return solve_ivp(SEIR, [0, size], [s_0, e_0, i_0, r_0], t_eval=np.arange(0, size, 1))
 
     def train(self, root, start, over):
         susceptible, exposed, confirmed, recovered, dead = self.__load_data__(root, start, over)
 
-        optimal = minimize(self.loss, np.array([0.2, 0.2, 0.2]),
+        optimal = minimize(self.loss, np.array([0.6, 0.3, 0.4]),
                            args=(susceptible, exposed, confirmed - recovered - dead, recovered + dead,
                                  self.s_0, self.e_0, self.i_0, self.r_0),
-                           method='L-BFGS-B', bounds=[(0.00000001, 0.8), (0.14, 0.33), (0.35, 0.6)])
+                           method='L-BFGS-B', bounds=[(0.1, 0.8), (0.14, 0.33), (0.1, 0.6)])
 
         print(optimal)
 
@@ -113,28 +113,28 @@ class Learner(object):
             E = y[1]
             I = y[2]
             R = y[3]
-            return [-beta * S * (I + E) / N, beta * S * I / N - alpha * E, alpha * E - gamma * I, gamma * I]
+            return [-beta * S * (I + E) / N, beta * S * (I + E) / N - alpha * E, alpha * E - gamma * I, gamma * I]
 
         solution = solve_ivp(SEIR, [0, size], [s_0, e_0, i_0, r_0], t_eval=np.arange(0, size, 1), vectorized=True)
-        # l1 = np.sqrt(np.mean((solution.y[0] - susceptible) ** 2))
+        l1 = np.sqrt(np.mean((solution.y[0] - susceptible) ** 2))
         l2 = np.sqrt(np.mean((solution.y[1] - exposed) ** 2))
         l3 = np.sqrt(np.mean((solution.y[2] - infected) ** 2))
         l4 = np.sqrt(np.mean((solution.y[3] - removed) ** 2))
-        a1 = 0.4
-        a2 = 0.4
-        a3 = 0.1
-        return a2 * l2 + a3 * l3 + (1 - a1 - a2 - a3) * l4
+        a1 = 0.01
+        a2 = 0.2
+        a3 = 0.4
+        return a1 * l1 + a2 * l2 + a3 * l3 + (1 - a1 - a2 - a3) * l4
 
 
 
 
-predict_range = 30
+predict_range = 10
 N = 3.282 * (10 ** 9)
 
 e_0 = 2  # 潜伏者
 i_0 = 4  # 感染者
-r_0 = 0  # 康复者
-ratio = 0.25
+r_0 = 0  # 移除者
+ratio = 0.7
 
 learner = Learner(predict_range, e_0, i_0, r_0, N, ratio)
 learner.train('./Data/Us_All.csv', "3/22/20", "5/29/20")
