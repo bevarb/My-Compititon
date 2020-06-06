@@ -137,4 +137,4 @@ r_0 = 0  # 移除者
 ratio = 0.7
 
 learner = Learner(predict_range, e_0, i_0, r_0, N, ratio)
-learner.train('./Data/Us_All.csv', "3/22/20", "5/29/20")
+learner.train('./Data/Us_All.csv', "2/22/20", "3/29/20")
