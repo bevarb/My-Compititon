@@ -23,7 +23,8 @@ class Learner(object):
         df.set_index(["Date"], inplace=True)
         self.Real_data = df
         confirmed = df.loc[begain:over, "Confirmed"].T  # 所有确诊的，后面尽管变为R or D ，数目是累计的
-        exposed = df.loc[begain:over, "Exposed"].T  # 将确诊的往前推5天作为Exposed
+        exposed = confirmed * 0.01
+        # exposed = df.loc[begain:over, "Exposed"].T  # 将确诊的往前推5天作为Exposed
         recovered = df.loc[begain:over, "Recovered"].T
         dead = df.loc[begain:over, "Dead"].T
         susceptible = np.ones(len(confirmed)) * self.N - confirmed - exposed

@@ -13,6 +13,7 @@ import numpy as np
 df = pd.read_csv('./Data/ChinaHubei.csv')
 df.set_index(["Date"], inplace=True)
 All_value = np.array(df.loc["1/22/20":"6/3/20", "Confirmed"])
+
 N = 70000
 TRAIN_SIZE = 0.2
 
