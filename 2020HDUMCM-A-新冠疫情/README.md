@@ -14,7 +14,14 @@
 *  5 . LSTM.py ------------- 使用LSTM来预测
 
 ###2 - 结果
-![avatar](/Images/LSTM.tif)
+LSTM预测结果
+![avatar](https://github.com/bevarb/My-Compititon/blob/master/2020HDUMCM-A-%E6%96%B0%E5%86%A0%E7%96%AB%E6%83%85/Images/LSTM.png)
+SEIR预测结果
+![avatar](https://github.com/bevarb/My-Compititon/blob/master/2020HDUMCM-A-%E6%96%B0%E5%86%A0%E7%96%AB%E6%83%85/Images/SEIR.png)
+SEIR原理图
+![avatar](https://github.com/bevarb/My-Compititon/blob/master/2020HDUMCM-A-%E6%96%B0%E5%86%A0%E7%96%AB%E6%83%85/Images/LSTM.png)
+修正后的SEIR原理图
+![avatar](https://github.com/bevarb/My-Compititon/blob/master/2020HDUMCM-A-%E6%96%B0%E5%86%A0%E7%96%AB%E6%83%85/Images/LSTM.png)
 
 
 ##题目
