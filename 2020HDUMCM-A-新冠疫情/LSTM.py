@@ -1,4 +1,4 @@
-# Author: HduWangXu
+# Writer:bevarb
 # Time: 2020/06/06
 
 import torch
@@ -75,4 +75,5 @@ plt.legend(loc='best')
 plt.title('Cumulative infections prediction(USA)')
 plt.xlabel('Day')
 plt.ylabel('Cumulative Cases')
-plt.show()
+plt.savefig("./Images/LSTM.tif")
+plt.close()

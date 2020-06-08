@@ -70,15 +70,5 @@ for epoch in range(opt.epoch):
 
 
 
-# plt.plot(np.arange(0, flag1, 1), All_loss, label='Train_Loss')
-# # plt.plot(np.arange(flag1, Data_Length, 1), prediction_test[:, 0, 0, 2], label='SEIR pred')
-#
-# plt.legend(loc='best')
-# plt.title('Cumulative infections prediction(USA)')
-# plt.xlabel('Day')
-# plt.ylabel('Cumulative Cases')
-# plt.savefig('./Images/1.png')
-# plt.close()
-
 
 
